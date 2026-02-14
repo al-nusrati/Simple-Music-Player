@@ -1,0 +1,100 @@
+# ============================================
+# SFML Music Player .gitignore
+# ============================================
+
+# Compiled executables
+*.exe
+*.out
+*.app
+*.o
+*.obj
+
+# Build directories
+build/
+bin/
+obj/
+out/
+
+# VS Code settings (keep tasks.json but ignore workspace state)
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
+.vscode/settings.json
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Dependencies (Don't commit SFML library files)
+lib/
+include/SFML/
+*.dll
+*.so
+*.dylib
+*.a
+
+# Assets (music files can be large, images too)
+assets/music/*.mp3
+assets/music/*.wav
+assets/music/*.ogg
+assets/images/*.jpg
+assets/images/*.png
+assets/images/*.bmp
+
+# But keep the fonts and directory structure
+!assets/fonts/.gitkeep
+!assets/music/.gitkeep
+!assets/images/.gitkeep
+
+# Temporary files
+*.tmp
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.pdb
+*.ilk
+*.dSYM/
+
+# IDE specific
+*.cbp
+*.layout
+*.depend
+.idea/
+*.iml
+
+# Backup files
+*.bak
+*.backup
+*_backup
+
+# Package managers
+.cache/
+*.lock
+
+# Windows
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Linux
+*.core

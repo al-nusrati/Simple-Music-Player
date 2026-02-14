@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "C/C++: g++.exe build active file",
+            "type": "cppbuild",
+            "command": "g++",
+            "args": [
+                "-std=c++20",
+                "-g",
+                "${file}",
+                "-o",
+                "${workspaceFolder}\\bin\\MusicPlayer.exe",
+                "-I",
+                "D:/Downloads/SFML/SFML-3.0.2-windows-gcc-14.2.0-mingw-64-bit/SFML-3.0.2/include",
+                "-L",
+                "D:/Downloads/SFML/SFML-3.0.2-windows-gcc-14.2.0-mingw-64-bit/SFML-3.0.2/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-audio",
+                "-lsfml-system"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "SFML 3.0.2 Build Task - CORRECTED"
+        }
+    ]
+}

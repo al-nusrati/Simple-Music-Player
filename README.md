@@ -166,7 +166,7 @@ Contributions welcome! Please feel free to submit a Pull Request.
 
 ## Author
 
-Your Name - [@yourusername](https://github.com/yourusername)
+Jawad Ahmed Nusrati - [al-nusrati](https://github.com/al-nusrati)
 
 ## Acknowledgments
 

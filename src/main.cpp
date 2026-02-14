@@ -26,14 +26,11 @@ public:
     }
 
     bool init() {
-        // Use RELATIVE paths based on the 'bin' folder location
-        // Fixed: removed duplicate .ttf extension
         if (!font.openFromFile("../assets/fonts/arial.ttf")) {
             std::cerr << "Font not found at ../assets/fonts/arial.ttf" << std::endl;
             return false;
         }
         
-        // Try to load background image
         sf::Texture tempTexture;
         if (!tempTexture.loadFromFile("../assets/images/image.jpg")) {
             std::cout << "Background not found, using flat color.\n";
@@ -42,7 +39,6 @@ public:
             bgSprite.emplace(background.value());
         }
 
-        // Initialize Playlist
         playlist = {
             {"Song 1", "../assets/music/song1.mp3"},
             {"Song 2", "../assets/music/song2.mp3"},
@@ -62,7 +58,7 @@ public:
     }
 
     void run() {
-        play(); // Start playing the first song
+        play(); 
         
         while (window.isOpen()) {
             while (const std::optional event = window.pollEvent()) {
@@ -98,7 +94,6 @@ public:
                 }
             }
 
-            // Auto-advance to next song when current one finishes
             if (music.getStatus() == sf::Music::Status::Stopped && !playlist.empty()) {
                 currentIdx = (currentIdx + 1) % playlist.size();
                 play();
@@ -106,18 +101,15 @@ public:
 
             window.clear(sf::Color(30, 30, 30));
             
-            // Draw background if it was loaded
             if (bgSprite.has_value()) {
                 window.draw(bgSprite.value());
             }
             
-            // Draw current song title
             sf::Text titleText(font, playlist[currentIdx].title, 24);
             titleText.setPosition({50.f, 50.f});
             titleText.setFillColor(sf::Color::White);
             window.draw(titleText);
             
-            // Draw controls
             sf::Text controlsText(font, "Controls: SPACE=Play/Pause | N=Next | P=Previous | ESC=Exit", 16);
             controlsText.setPosition({50.f, 350.f});
             controlsText.setFillColor(sf::Color(200, 200, 200));

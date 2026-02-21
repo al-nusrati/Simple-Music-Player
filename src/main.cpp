@@ -90,7 +90,7 @@ public:
     }
 
     int getTotalTracks() {
-        return dll.nodeCount(); // This must be O(1) in your DLL!
+        return dll.nodeCount(); // This must be O(1)
     }
 };
 
@@ -229,7 +229,6 @@ public:
             
             cin >> choice;
 
-            // Haqeeqat Check: Clear buffer if user types text instead of a number
             if (cin.fail()) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');

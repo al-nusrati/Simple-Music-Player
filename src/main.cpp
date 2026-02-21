@@ -124,7 +124,12 @@ private:
         utils.setForegroundColor(ConsoleColor::BrightCyan);
         cout << "+------------------------------------------------+\n";
         cout << "|                      HIVE                      |\n";
-        cout << "+------------------------------------------------+\n\n";
+        cout << "+------------------------------------------------+\n";
+
+        // 2. Your Signature 
+        utils.setForegroundColor(ConsoleColor::BrightYellow);
+        // 39 spaces ensures 'D' aligns perfectly with the box edge
+        cout << "                                  BY: JAWAD AHMED\n\n";
 
         // Now Playing
         Track* current = playlist.getCurrentTrack();

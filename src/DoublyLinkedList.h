@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-using namespace std;
 
 template <typename T>
 struct node {
@@ -14,6 +13,7 @@ class DoublyLinkedList {
 private:
     node<T>* head;
     node<T>* tail;
+    int listSize; // The O(1) secret weapon
 
     node<T>* getNewNode(T val) {
         node<T>* newNode = new node<T>;
@@ -24,74 +24,169 @@ private:
     }
 
 public:
-    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
-    ~DoublyLinkedList() { freeMemory(); }
+    DoublyLinkedList() {
+        head = nullptr;
+        tail = nullptr;
+        listSize = 0;
+    }
 
-    // Exposes head so Playlist can store a node<T>* directly — O(1) navigation
-    node<T>* getHead() const { return head; }
+    ~DoublyLinkedList() {
+        freeMemory();
+    }
 
-    // Delete by pointer O(1) — used by removeByID after single search pass
-    void deleteNode(node<T>* target) {
-        if (!target) return;
-        if (target == head) { deleteFromStart(); return; }
-        if (target == tail) { deleteFromEnd();   return; }
-        target->prev->next = target->next;
-        target->next->prev = target->prev;
-        delete target;
+    // Expose head for the Playlist domain logic
+    node<T>* getHead() const {
+        return head;
     }
 
     void insertAtBeginning(T val) {
-        node<T>* n = getNewNode(val);
-        if (!head) { head = tail = n; return; }
-        n->next = head; head->prev = n; head = n;
+        node<T>* newNode = getNewNode(val);
+        
+        if(head == nullptr) { 
+            head = tail = newNode;
+        } else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+        listSize++;
     }
 
     void insertAtEnd(T val) {
-        node<T>* n = getNewNode(val);
-        if (!head) { head = tail = n; return; }
-        tail->next = n; n->prev = tail; tail = n;
+        node<T>* newNode = getNewNode(val);
+        
+        if(head == nullptr) {  
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+        listSize++;
     }
 
-    void insertAtAnyPos(int pos, T val) {
-        if (pos <= 0 || pos > nodeCount() + 1) { cout << "Invalid position!\n"; return; }
-        if (pos == 1)              { insertAtBeginning(val); return; }
-        if (pos == nodeCount() + 1){ insertAtEnd(val);       return; }
-        node<T>* n = getNewNode(val);
+    void insertAtAnyPos(int position, T val) {
+        if(position <= 0 || position > listSize + 1) {
+            std::cout << "Invalid position!\n";
+            return;
+        }
+        
+        if(position == 1) {
+            insertAtBeginning(val);
+            return;
+        }
+        
+        if(position == listSize + 1) {
+            insertAtEnd(val);
+            return;
+        }
+        
+        node<T>* newNode = getNewNode(val);
         node<T>* temp = head;
-        for (int i = 1; i < pos - 1; i++) temp = temp->next;
-        n->next = temp->next; n->prev = temp;
-        if (temp->next) temp->next->prev = n;
-        temp->next = n;
+        
+        for(int i = 1; i < position - 1; i++) {
+            temp = temp->next;
+        }
+        
+        newNode->next = temp->next;
+        newNode->prev = temp;
+        
+        if(temp->next != nullptr) {
+            temp->next->prev = newNode;
+        }
+        
+        temp->next = newNode;
+        listSize++;
     }
 
     void deleteFromStart() {
-        if (!head) return;
+        if(isEmpty()) return;
+        
         node<T>* temp = head;
-        if (head == tail) { head = tail = nullptr; }
-        else { head = head->next; head->prev = nullptr; }
+        if(head == tail) {  
+            head = tail = nullptr;
+        } else {
+            head = head->next;
+            head->prev = nullptr;
+        }
+        
         delete temp;
+        listSize--;
     }
 
     void deleteFromEnd() {
-        if (!head) return;
+        if(isEmpty()) return;
+        
         node<T>* temp = tail;
-        if (head == tail) { head = tail = nullptr; }
-        else { tail = tail->prev; tail->next = nullptr; }
+        if(head == tail) { 
+            head = tail = nullptr;
+        } else {
+            tail = tail->prev;
+            tail->next = nullptr;
+        }
+        
         delete temp;
+        listSize--;
     }
 
-    int nodeCount() const {
-        int count = 0;
+    void deleteAtAnyPos(int position) {
+        if(isEmpty()) {
+            std::cout << "List is empty!\n";
+            return;
+        }
+        
+        if(position <= 0 || position > listSize) {
+            std::cout << "Invalid position!\n";
+            return;
+        }
+        
+        if(position == 1) {
+            deleteFromStart();
+            return;
+        }
+        
+        if(position == listSize) {
+            deleteFromEnd();
+            return;
+        }
+        
         node<T>* temp = head;
-        while (temp) { count++; temp = temp->next; }
-        return count;
+        for(int i = 1; i < position; i++) {
+            temp = temp->next;
+        }
+        
+        temp->prev->next = temp->next;
+        temp->next->prev = temp->prev;
+        
+        delete temp;
+        listSize--;
     }
 
-    bool isEmpty() const { return (head == nullptr); }
+    // O(1) Complexity - No more loops!
+    int nodeCount() const {
+        return listSize;
+    }
+
+    bool isEmpty() const {
+        return (head == nullptr);
+    }
+
+    void traverseForward() const {
+        node<T>* temp = head;
+        while(temp != nullptr) {
+            std::cout << temp->data << "\n";
+            temp = temp->next;
+        }
+    }
 
     void freeMemory() {
         node<T>* temp;
-        while (head) { temp = head; head = head->next; delete temp; }
+        while(head != nullptr) {
+            temp = head;
+            head = head->next;
+            delete temp;
+        }
         tail = nullptr;
+        listSize = 0;
     }
 };

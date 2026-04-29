@@ -13,7 +13,7 @@ class DoublyLinkedList {
 private:
     node<T>* head;
     node<T>* tail;
-    int listSize; // The O(1) secret weapon
+    int listSize; // O(1)
 
     node<T>* getNewNode(T val) {
         node<T>* newNode = new node<T>;
@@ -34,7 +34,6 @@ public:
         freeMemory();
     }
 
-    // Expose head for the Playlist domain logic
     node<T>* getHead() const {
         return head;
     }
@@ -44,7 +43,8 @@ public:
         
         if(head == nullptr) { 
             head = tail = newNode;
-        } else {
+        } 
+        else {
             newNode->next = head;
             head->prev = newNode;
             head = newNode;
@@ -57,7 +57,8 @@ public:
         
         if(head == nullptr) {  
             head = tail = newNode;
-        } else {
+        } 
+        else {
             tail->next = newNode;
             newNode->prev = tail;
             tail = newNode;
@@ -105,7 +106,8 @@ public:
         node<T>* temp = head;
         if(head == tail) {  
             head = tail = nullptr;
-        } else {
+        } 
+        else {
             head = head->next;
             head->prev = nullptr;
         }
@@ -162,7 +164,7 @@ public:
         listSize--;
     }
 
-    // O(1) Complexity - No more loops!
+    // O(1) Complexity
     int nodeCount() const {
         return listSize;
     }
